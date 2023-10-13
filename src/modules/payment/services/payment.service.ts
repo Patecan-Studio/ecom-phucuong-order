@@ -1,11 +1,11 @@
-import { Inject, Injectable } from '@nestjs/common'
+import { Inject, Injectable, Logger } from '@nestjs/common'
 import * as qs from 'querystring'
 import * as dateformat from 'dateformat'
 import { GetPaymentUrlDTO } from './dtos/get-payment-url.dto'
 import { PaymentModuleConfig, PaymentServiceConfig } from '../interfaces'
 import { sortObject } from '../utils/sort-object'
 import { getSecureHash } from '../utils/get-secure-hash'
-import { PAYMENT_MODULE_CONFIG, PAYMENT_SERVICE_CONFIG } from '../constants'
+import { PAYMENT_MODULE_CONFIG } from '../constants'
 import { GetPaymentResultRedirectUrlDTO } from './dtos/get-payment-result-redirect-url.dto'
 
 @Injectable()
@@ -58,6 +58,8 @@ export class PaymentService {
 
 		url.search = qs.stringify(params)
 
+		Logger.log('VNPAY payment URL: ' + url.toString())
+
 		return url.toString()
 	}
 
@@ -66,6 +68,8 @@ export class PaymentService {
 		const url = new URL(paymentResultRedirectUrl)
 		url.searchParams.append('orderId', dto.vnp_TxnRef.toString())
 		url.searchParams.append('status', dto.vnp_TransactionStatus)
+
+		Logger.log('VNPAY redirect result URL: ' + url.toString())
 		return url.toString()
 	}
 }

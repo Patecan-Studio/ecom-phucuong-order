@@ -3,5 +3,5 @@ export interface GetPaymentUrlDTO {
 	ipAddress: string
 	orderInfo: string
 	orderType: string
-	tnxId: string
+	orderId: string
 }

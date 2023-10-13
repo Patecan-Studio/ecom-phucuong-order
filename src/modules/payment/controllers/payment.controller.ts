@@ -1,4 +1,4 @@
-import { Controller, Get, Query } from '@nestjs/common'
+import { Controller, Get, Query, Redirect, Res } from '@nestjs/common'
 import { PaymentService } from '../services/payment.service'
 import {
 	GetPaymentUrlQueryDTO,
@@ -7,20 +7,22 @@ import {
 import { GetPaymentUrlDTO } from '../services/dtos/get-payment-url.dto'
 import { ClientIp } from 'src/libs/decorators'
 import { ApiResponse } from '@nestjs/swagger'
+import { PaymentReturnResultQueryDTO } from './dtos/return-result.dtos'
 
 @Controller('payment')
 export class PaymentController {
 	constructor(private readonly paymentService: PaymentService) {}
 
-	@Get('/url')
+	@Get()
 	@ApiResponse({
 		status: 200,
 		type: GetPaymentUrlResponseDTO,
 	})
+	@Redirect()
 	getPaymentUrl(
 		@Query() q: GetPaymentUrlQueryDTO,
 		@ClientIp() ipAddr: string,
-	): GetPaymentUrlResponseDTO {
+	) {
 		const dto: GetPaymentUrlDTO = {
 			...q,
 			ipAddress: ipAddr,
@@ -31,8 +33,9 @@ export class PaymentController {
 	}
 
 	@Get('/returnResult')
-	redirectPaymentResult() {
-		console.log('hello world')
-		return { RspCode: '00', Message: 'success' }
+	@Redirect()
+	redirectPaymentResult(@Query() query: PaymentReturnResultQueryDTO) {
+		const url = this.paymentService.getPaymentResultRedirectUrl(query)
+		return { url: url.toString() }
 	}
 }

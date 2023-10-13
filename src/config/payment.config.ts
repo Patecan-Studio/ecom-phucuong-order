@@ -9,6 +9,7 @@ export default () => ({
 			hashSecret: process.env.VNPAY_HASH_SECRET,
 			merchantCode: process.env.VNPAY_MERCHANT_CODE,
 			paymentReturnUrl: process.env.PAYMENT_RETURN_URL,
+			paymentResultRedirectUrl: process.env.PAYMENT_RESULT_REDIRECT_URL,
 		},
 	} as PaymentModuleConfig,
 })

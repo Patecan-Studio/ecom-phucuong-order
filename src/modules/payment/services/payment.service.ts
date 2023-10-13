@@ -6,6 +6,7 @@ import { PaymentModuleConfig, PaymentServiceConfig } from '../interfaces'
 import { sortObject } from '../utils/sort-object'
 import { getSecureHash } from '../utils/get-secure-hash'
 import { PAYMENT_MODULE_CONFIG, PAYMENT_SERVICE_CONFIG } from '../constants'
+import { GetPaymentResultRedirectUrlDTO } from './dtos/get-payment-result-redirect-url.dto'
 
 @Injectable()
 export class PaymentService {
@@ -17,7 +18,7 @@ export class PaymentService {
 		this.config = moduleConfig.serviceConfig
 	}
 	getPaymentUrl(dto: GetPaymentUrlDTO) {
-		const { amount, ipAddress, orderInfo, orderType, tnxId } = dto
+		const { amount, ipAddress, orderInfo, orderType, orderId: tnxId } = dto
 		const {
 			apiUrl,
 			apiVersion,
@@ -57,6 +58,14 @@ export class PaymentService {
 
 		url.search = qs.stringify(params)
 
+		return url.toString()
+	}
+
+	getPaymentResultRedirectUrl(dto: GetPaymentResultRedirectUrlDTO) {
+		const { paymentResultRedirectUrl } = this.config
+		const url = new URL(paymentResultRedirectUrl)
+		url.searchParams.append('orderId', dto.vnp_TxnRef.toString())
+		url.searchParams.append('status', dto.vnp_TransactionStatus)
 		return url.toString()
 	}
 }

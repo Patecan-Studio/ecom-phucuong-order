@@ -19,7 +19,7 @@ export class GetPaymentUrlQueryDTO {
 
 	@ApiProperty()
 	@IsNotEmpty()
-	tnxId: string
+	orderId: string
 }
 
 export class GetPaymentUrlResponseDTO extends PartialType(SuccessResponseDTO) {

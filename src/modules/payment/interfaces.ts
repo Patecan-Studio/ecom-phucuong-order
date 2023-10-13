@@ -5,6 +5,7 @@ export interface PaymentServiceConfig {
 	apiVersion: string
 	durationInSecond: number
 	hashSecret: string
+	paymentResultRedirectUrl: string
 }
 
 export interface PaymentModuleConfig {

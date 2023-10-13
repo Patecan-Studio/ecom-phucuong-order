@@ -7,6 +7,7 @@ import { sortObject } from '../utils/sort-object'
 import { getSecureHash } from '../utils/get-secure-hash'
 import { PAYMENT_MODULE_CONFIG } from '../constants'
 import { GetPaymentResultRedirectUrlDTO } from './dtos/get-payment-result-redirect-url.dto'
+import { convertUTCToGMT7 } from '../utils/convert-to-local-time'
 
 @Injectable()
 export class PaymentService {
@@ -28,9 +29,10 @@ export class PaymentService {
 			hashSecret,
 		} = this.config
 
-		const createdDate = new Date()
-		const expiredDate = new Date(
-			createdDate.getTime() + durationInSecond * 1000,
+		const now = new Date()
+		const createdDate = convertUTCToGMT7(now)
+		const expiredDate = convertUTCToGMT7(
+			new Date(now.getTime() + durationInSecond * 1000),
 		)
 
 		let params = {

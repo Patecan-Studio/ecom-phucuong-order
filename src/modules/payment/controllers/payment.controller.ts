@@ -9,7 +9,10 @@ import { ClientIp } from 'src/libs/decorators'
 import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { PaymentReturnResultQueryDTO } from './dtos/return-result.dtos'
 
-@Controller('payment')
+@Controller({
+	path: '/payment',
+	version: '1',
+})
 @ApiTags('Payment')
 export class PaymentController {
 	constructor(private readonly paymentService: PaymentService) {}

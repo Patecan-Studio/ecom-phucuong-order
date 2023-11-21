@@ -4,6 +4,7 @@ import {
 	ClassSerializerInterceptor,
 	Logger,
 	ValidationPipe,
+	VersioningType,
 } from '@nestjs/common'
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger'
 import {
@@ -24,6 +25,10 @@ async function bootstrap() {
 			exceptionFactory: (errors) => new BadRequestException(errors),
 		}),
 	)
+	app.enableVersioning({
+		type: VersioningType.URI,
+		prefix: 'v',
+	})
 	app.setGlobalPrefix('api')
 
 	const config = new DocumentBuilder()

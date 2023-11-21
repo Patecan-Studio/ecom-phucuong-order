@@ -6,10 +6,11 @@ import {
 } from './dtos/get-payment-url.dtos'
 import { GetPaymentUrlDTO } from '../services/dtos/get-payment-url.dto'
 import { ClientIp } from 'src/libs/decorators'
-import { ApiResponse } from '@nestjs/swagger'
+import { ApiResponse, ApiTags } from '@nestjs/swagger'
 import { PaymentReturnResultQueryDTO } from './dtos/return-result.dtos'
 
 @Controller('payment')
+@ApiTags('Payment')
 export class PaymentController {
 	constructor(private readonly paymentService: PaymentService) {}
 
@@ -35,7 +36,7 @@ export class PaymentController {
 	@Get('/returnResult')
 	@Redirect()
 	redirectPaymentResult(@Query() query: PaymentReturnResultQueryDTO) {
-		const url = this.paymentService.getPaymentResultRedirectUrl(query)
+		const url = this.paymentService.verifyAndGetRedirectUrl(query)
 		return { url: url.toString() }
 	}
 }

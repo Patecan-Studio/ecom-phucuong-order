@@ -1,12 +1,10 @@
-import { TypeOrmModuleOptions } from '@nestjs/typeorm'
 import { DATABASE_CONFIG } from './constants'
+import { MongoDBOptions } from '@infras/mongoose'
 
 export default () => ({
 	[DATABASE_CONFIG]: {
-		type: 'postgres',
-		url: process.env.DATABASE_CONNECTION_STRING,
-		autoLoadEntities: true,
-		entityPrefix: 'workflow_', // put your table's name prefix here,
-		logging: true,
-	} as TypeOrmModuleOptions,
+		connectionString: process.env.DATABASE_CONNECTION_STRING,
+		maxPoolSize: 50,
+		debug: true,
+	} as MongoDBOptions,
 })

@@ -11,6 +11,7 @@ import { convertUTCToGMT7 } from '../utils/convert-to-local-time'
 
 @Injectable()
 export class PaymentService {
+	private readonly logger = new Logger(PaymentService.name)
 	private readonly config: PaymentServiceConfig
 	constructor(
 		@Inject(PAYMENT_MODULE_CONFIG)
@@ -60,18 +61,19 @@ export class PaymentService {
 
 		url.search = qs.stringify(params)
 
-		Logger.log('VNPAY payment URL: ' + url.toString())
+		this.logger.log('VNPAY payment URL: ' + url.toString())
 
 		return url.toString()
 	}
 
-	getPaymentResultRedirectUrl(dto: GetPaymentResultRedirectUrlDTO) {
+	verifyAndGetRedirectUrl(dto: GetPaymentResultRedirectUrlDTO) {
+		// TODO: verify hash
 		const { paymentResultRedirectUrl } = this.config
 		const url = new URL(paymentResultRedirectUrl)
 		url.searchParams.append('orderId', dto.vnp_TxnRef.toString())
 		url.searchParams.append('status', dto.vnp_TransactionStatus)
 
-		Logger.log('VNPAY redirect result URL: ' + url.toString())
+		this.logger.log('VNPAY redirect result URL: ' + url.toString())
 		return url.toString()
 	}
 }

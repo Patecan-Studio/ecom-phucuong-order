@@ -18,8 +18,15 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "paths": {
-      "@libs": ["src/libs"],
-      "@modules/*": ["src/modules/*"]
+      "@libs": [
+        "src/libs"
+      ],
+      "@modules/*": [
+        "src/modules/*"
+      ],
+      "@infras/*": [
+        "src/infrastructure/*"
+      ]
     }
   }
 }

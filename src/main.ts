@@ -27,8 +27,8 @@ async function bootstrap() {
 	app.setGlobalPrefix('api')
 
 	const config = new DocumentBuilder()
-		.setTitle('Workflow Service')
-		.setDescription('Worklow Service API description')
+		.setTitle('Order Service')
+		.setDescription('Order Service API description')
 		.setVersion('0.0.1')
 		.build()
 

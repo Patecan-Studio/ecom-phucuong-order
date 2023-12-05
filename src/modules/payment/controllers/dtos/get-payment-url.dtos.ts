@@ -4,20 +4,40 @@ import { Type } from 'class-transformer'
 import { IsNotEmpty } from 'class-validator'
 
 export class GetPaymentUrlQueryDTO {
-	@ApiProperty()
+	@ApiProperty({
+		description: 'The amount of money to pay',
+		required: true,
+		example: 100000,
+	})
 	@Type(() => Number)
 	@IsNotEmpty()
 	amount: number
 
-	@ApiProperty()
-	@IsNotEmpty()
+	@ApiProperty({
+		description: 'Info of order. Can be a stringified JSON object',
+		required: false,
+		example: '{"name":"John Doe","age":30}',
+	})
 	orderInfo: string
 
-	@ApiProperty()
+	@ApiProperty({
+		description: 'Type of order',
+		externalDocs: {
+			description:
+				'VNPAY documentation. https://sandbox.vnpayment.vn/apis/docs/loai-hang-hoa',
+			url: 'https://sandbox.vnpayment.vn/apis/docs/loai-hang-hoa',
+		},
+		required: true,
+		example: '100000',
+	})
 	@IsNotEmpty()
 	orderType: string
 
-	@ApiProperty()
+	@ApiProperty({
+		description: 'ID of order. This must be unique across the system',
+		required: true,
+		example: 'ORDER123456',
+	})
 	@IsNotEmpty()
 	orderId: string
 }

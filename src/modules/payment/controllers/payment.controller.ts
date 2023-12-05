@@ -6,7 +6,7 @@ import {
 } from './dtos/get-payment-url.dtos'
 import { GetPaymentUrlDTO } from '../services/dtos/get-payment-url.dto'
 import { ClientIp } from 'src/libs/decorators'
-import { ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { PaymentReturnResultQueryDTO } from './dtos/return-result.dtos'
 
 @Controller({
@@ -18,11 +18,16 @@ export class PaymentController {
 	constructor(private readonly paymentService: PaymentService) {}
 
 	@Get()
+	@Redirect()
 	@ApiResponse({
 		status: 200,
 		type: GetPaymentUrlResponseDTO,
 	})
-	@Redirect()
+	@ApiOperation({
+		operationId: 'payment',
+		summary: 'Process payment',
+		description: 'Redirects user to VNPAY payment page',
+	})
 	getPaymentUrl(
 		@Query() q: GetPaymentUrlQueryDTO,
 		@ClientIp() ipAddr: string,

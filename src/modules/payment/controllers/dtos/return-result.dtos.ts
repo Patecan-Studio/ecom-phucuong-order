@@ -3,7 +3,6 @@ import { Type } from 'class-transformer'
 
 export class PaymentReturnResultQueryDTO {
 	@ApiProperty()
-	@Type(() => Number)
 	vnp_Amount: number
 
 	@ApiProperty()
@@ -34,7 +33,6 @@ export class PaymentReturnResultQueryDTO {
 	vnp_TransactionStatus: string
 
 	@ApiProperty()
-	@Type(() => Number)
 	vnp_TxnRef: number
 
 	@ApiProperty()

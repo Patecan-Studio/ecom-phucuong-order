@@ -9,6 +9,6 @@ export interface GetPaymentResultRedirectUrlDTO {
 	vnp_TmnCode: string
 	vnp_TransactionNo: string
 	vnp_TransactionStatus: string
-	vnp_TxnRef: number
+	vnp_TxnRef: string
 	vnp_SecureHash: string
 }

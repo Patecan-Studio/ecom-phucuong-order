@@ -1,4 +1,4 @@
-import { Controller, Get, Query, Redirect, Res } from '@nestjs/common'
+import { Controller, Get, Query, Redirect, Req, Res } from '@nestjs/common'
 import { PaymentService } from '../services/payment.service'
 import {
 	GetPaymentUrlQueryDTO,
@@ -6,19 +6,23 @@ import {
 } from './dtos/get-payment-url.dtos'
 import { GetPaymentUrlDTO } from '../services/dtos/get-payment-url.dto'
 import { ClientIp } from 'src/libs/decorators'
-import { ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger'
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger'
 import { PaymentReturnResultQueryDTO } from './dtos/return-result.dtos'
+import { ApiConfig } from 'src/libs/decorators/api-config.decorator'
 
 @Controller({
 	path: '/payment',
 	version: '1',
+})
+@ApiConfig({
+	useSuccessInterceptor: false,
 })
 @ApiTags('Payment')
 export class PaymentController {
 	constructor(private readonly paymentService: PaymentService) {}
 
 	@Get()
-	@Redirect()
+	// @Redirect()
 	@ApiResponse({
 		status: 200,
 		type: GetPaymentUrlResponseDTO,
@@ -38,13 +42,23 @@ export class PaymentController {
 		}
 		const paymentUrl = this.paymentService.getPaymentUrl(dto)
 
-		return { url: paymentUrl }
+		return paymentUrl
 	}
 
 	@Get('/returnResult')
 	@Redirect()
 	redirectPaymentResult(@Query() query: PaymentReturnResultQueryDTO) {
+		console.log(query)
 		const url = this.paymentService.verifyAndGetRedirectUrl(query)
 		return { url: url.toString() }
+	}
+
+	@Get('/vnpayIPN')
+	@ApiQuery({
+		type: PaymentReturnResultQueryDTO,
+	})
+	async vnPayIPN(@Query() dto: PaymentReturnResultQueryDTO) {
+		const result = await this.paymentService.updateOrderPayment(dto)
+		return result
 	}
 }

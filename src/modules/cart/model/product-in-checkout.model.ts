@@ -1,6 +1,6 @@
-import { Variant } from '@modules/cart/dto/CartRequestDTO';
+import { Variant } from '@modules/cart/dto/cart.dto';
 
-export default interface ProductInCheckout {
+export default class ProductInCheckoutModel {
   product_id?: string;
   sku?: string;
   product_brand_id?: string;
@@ -20,4 +20,9 @@ export default interface ProductInCheckout {
   discount_price?: number;
   discount_percentage?: number;
   totalAfterDiscount?: number;
+
+
+  constructor() {
+  }
+
 }

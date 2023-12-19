@@ -1,3 +1,7 @@
+import { IsNotEmpty } from 'class-validator'
+import { ApiProperty } from '@nestjs/swagger'
+import { CartItem } from '@modules/cart/model/cart.model'
+
 interface Image {
   imageName: string;
   imageUrl: string;
@@ -43,21 +47,6 @@ interface Brand {
   brand_logoUrl: string;
 }
 
-interface CartItem {
-  _id: string;
-  _uid: string;
-  qty: number;
-  product_brand: Brand;
-  product_name: string;
-  product_description: string;
-  product_banner_image: string;
-  product_slug: string;
-  product_categories: Category[];
-  product_variants: Variant[];
-  product_warranty: string;
-  variant: Variant;
-}
-
 interface Metadata {
   color: {
     label: string;
@@ -74,6 +63,6 @@ interface Metadata {
   };
 }
 
-export default interface CartRequestDTO {
+export default interface CartDto {
   cart: CartItem[];
 }

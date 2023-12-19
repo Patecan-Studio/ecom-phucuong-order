@@ -11,8 +11,8 @@ import { ConfigService } from '@nestjs/config'
   imports: [AppConfigModule,
 
     MongooseModule.forRootAsync({
-      useFactory: (configSevice: ConfigService) =>
-          configSevice.get(DATABASE_CONFIG),
+      useFactory: (configService: ConfigService) =>
+          configService.get(DATABASE_CONFIG),
       inject: [ConfigService],
     }),
     PaymentModule, CartModule],

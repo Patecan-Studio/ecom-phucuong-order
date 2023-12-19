@@ -1,1 +1,1 @@
-export { ClientIp } from './client-ip.decorator'
+export { ClientIp } from './client-ip.decorator';

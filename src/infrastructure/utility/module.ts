@@ -1,7 +1,7 @@
-import { Module } from '@nestjs/common'
-import { UtilityController } from './utility.controller'
+import { Module } from '@nestjs/common';
+import { UtilityController } from './utility.controller';
 
 @Module({
-	controllers: [UtilityController],
+  controllers: [UtilityController],
 })
 export class UtilityModule {}

@@ -1,1 +1,1 @@
-export { UtilityModule } from './module'
+export { UtilityModule } from './module';

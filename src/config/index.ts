@@ -1,2 +1,2 @@
-export * from './constants'
-export { AppConfigModule } from './module'
+export * from './constants';
+export { AppConfigModule } from './module';

@@ -18,6 +18,10 @@ import { ApiConfig, ProductModel, SuccessResponseDTO } from '@libs'
 import { CartRepository } from '@modules/cart/repository/cart.repository'
 import CartDto from '@modules/cart/dto/cart.dto'
 import { CreatedCartResponseDTO } from '@modules/cart/controllers/dto/cart-response.dto'
+import { MongoObjectIdParam } from '../../../libs/dtos/mongo-object-id.dto'
+import { Cart, CartItem } from '@modules/cart/model/cart.model'
+import { BrandNotFoundException } from '../../../libs/errors/brand.errors'
+import { CartNotFoundException, UserCartNotFoundException } from '@modules/cart/exceptions/cart.exception'
 
 @Controller({
 	path: '/carts',
@@ -36,15 +40,27 @@ export class CartController {
 
 	}
 
+	@Get('/:userId')
+	@ApiResponse({
+		status: 200
+	})
+	async getUserCart(@Param() userId: string): Promise<CartDto> {
+		const cart = await this.cartRepo.getUserCart(userId)
+		if (!cart) {
+			throw new UserCartNotFoundException(userId)
+		}
+		return new Cart(cart)
+	}
+
 	@Post()
 	@ApiResponse({
 		status: 201,
 		type: CreatedCartResponseDTO,
 	})
-	async saveCart(@Body() dto: CartDto) {
-
+	async saveCart(@Body() dto: CartItem[]) {
+		console.log('Step 0: ' + JSON.stringify(dto))
 		try {
-			const { cart } = dto
+			const cart: CartItem[]  = dto
 			console.log('Step 0: ' + JSON.stringify(cart))
 			let createdCart = await this.cartRepo.create(cart)
 			return new CreatedCartResponseDTO({

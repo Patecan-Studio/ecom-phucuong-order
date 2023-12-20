@@ -17,8 +17,6 @@ export class CartRepository {
 	constructor() {}
 
 	async create(cartItems: Partial<CartItem[]>): Promise<CartDto> {
-
-
 		try {
 			console.log('Step 1');
 
@@ -135,17 +133,12 @@ export class CartRepository {
 		}
 	}
 
-	async getById(id: string): Promise<Brand> {
-		const brand = await BrandModel.findById(id)
-			.where({
-				isMarkedDelete: false,
-			})
-			.select('-__v -isMarkedDelete -brand_products')
-		if (!brand) {
-			return null
-		}
-		return brand.toObject({
-			flattenObjectIds: true,
-		})
+	async getUserCart(userId: string): Promise<any> {
+		const user = await UserModel.findById("655609014186e2628008b45d").select('-__v');
+		console.log("GET DATA USER: "+user._id);
+		const cart = await CartModel.findOne({ user: user._id }).select('-__v');
+		console.log("GET DATA CART: "+ JSON.stringify(cart));
+
+		return cart;
 	}
 }

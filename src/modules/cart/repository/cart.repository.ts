@@ -1,13 +1,9 @@
 import { Injectable, Logger } from '@nestjs/common'
-import mongoose from 'mongoose'
 import CartDto from '@modules/cart/dto/cart.dto'
 import ProductInCheckoutModel from '@modules/cart/model/product-in-checkout.model'
 import UserModel from '../../../libs/schemas/user.model'
 import CartModel from '@modules/cart/schemas/cart.model'
 import { ProductModel } from '@libs'
-import { MongoDBErrorHandler } from '@infras/mongoose'
-import { BrandExistsException } from '../../../libs/errors/brand.errors'
-import cartModel from '@modules/cart/schemas/cart.model'
 import { CartItem } from '@modules/cart/model/cart.model'
 
 
@@ -126,9 +122,6 @@ export class CartRepository {
 			})
 		} catch (error) {
 			this.logger.error(error)
-			if (MongoDBErrorHandler.isDuplicatedKeyError(error, 'brand_name')) {
-				throw new BrandExistsException(cartModel.name)
-			}
 			throw error
 		}
 	}

@@ -1,5 +1,3 @@
-import { IsNotEmpty } from 'class-validator'
-import { ApiProperty } from '@nestjs/swagger'
 import { CartItem } from '@modules/cart/model/cart.model'
 
 interface Image {
